@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Registration - STICON 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER / NAVIGATION ================= -->
+  <header>
+    <div class="container navbar">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">ST</div>
+        <span>STICON 2026</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#details">Conference</a></li>
+          <li><a href="register.html" class="btn btn-primary active">Register Now</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= PAGE HEADER ================= -->
+  <div class="page-header">
+    <div class="container">
+      <span class="badge badge-primary">Online Registration</span>
+      <h1 style="font-size: 2.2rem; margin-top: 8px; color: var(--primary);">Conference Registration & Fee Calculator</h1>
+      <p style="color: var(--text-secondary); max-width: 650px;">
+        Fill out your personal details and select your participation options. Fees are calculated automatically below.
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= MAIN REGISTRATION FORM ================= -->
+  <main class="container section">
+    
+    <!-- Error Feedback Box -->
+    <div id="errorMessage" class="error-container hidden" role="alert">
+      <div class="error-title">
+        <span>⚠️</span>
+        <span>Please correct the following errors before submitting:</span>
+      </div>
+      <ul id="errorList" class="error-list"></ul>
+    </div>
+
+    <div class="form-layout">
+      
+      <!-- Registration Form Card -->
+      <div class="form-card">
+        <form action="process.php" method="POST" id="registrationForm" novalidate>
+          
+          <!-- SECTION A: PERSONAL INFORMATION -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">A</span>
+              <h2 class="section-title">Personal Information</h2>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="full_name">Full Name <span class="required">*</span></label>
+                <input type="text" id="full_name" name="full_name" placeholder="e.g. Enoch Musyoka" required>
+                <div class="input-hint">Enter your official full name</div>
+              </div>
+
+              <div class="form-group">
+                <label for="admission_number">Admission / Reg Number <span class="required">*</span></label>
+                <input type="text" id="admission_number" name="admission_number" placeholder="e.g. CT100/G/24121/24" required>
+                <div class="input-hint">Your institution student ID number</div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="e.g. enoch@example.com" required>
+                <div class="input-hint">For registration confirmation</div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="e.g. 0712345678" maxlength="10" required>
+                <div class="input-hint">Must contain exactly 10 digits</div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="year">Year of Study <span class="required">*</span></label>
+                <select id="year" name="year" required>
+                  <option value="">-- Select Year of Study --</option>
+                  <option value="Year 1">Year 1</option>
+                  <option value="Year 2">Year 2</option>
+                  <option value="Year 3" selected>Year 3</option>
+                  <option value="Year 4">Year 4</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION B: CONFERENCE PARTICIPATION -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">B</span>
+              <h2 class="section-title">Conference Participation</h2>
+            </div>
+
+            <div class="form-group">
+              <label>Participation Category <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="option-card">
+                  <input type="radio" name="category" value="Conference Only" id="cat_conf_only">
+                  <div class="option-content">
+                    <div class="option-title">Conference Only</div>
+                    <div class="option-desc">Access to all keynote sessions and main auditorium presentations.</div>
+                  </div>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="category" value="Workshop Participant" id="cat_workshop" checked>
+                  <div class="option-content">
+                    <div class="option-title">Workshop Participant</div>
+                    <div class="option-desc">Access to conference plus specialized practical web development workshops.</div>
+                  </div>
+                  <div class="option-price">+ KSh 750</div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="days">Number of Conference Days <span class="required">*</span></label>
+              <input type="number" id="days" name="days" min="1" max="3" value="2" required>
+              <div class="input-hint">Attendance cost is KSh 500 per day (Allowed range: 1 to 3 days)</div>
+            </div>
+          </div>
+
+          <!-- SECTION C: WORKSHOP (DYNAMIC SECTION) -->
+          <div class="form-section" id="workshopSection">
+            <div class="section-header">
+              <span class="section-number">C</span>
+              <h2 class="section-title">Workshop Option</h2>
+            </div>
+
+            <div class="form-group">
+              <label>Select Practical Workshop (KSh 750)</label>
+              <div class="radio-group">
+                <label class="option-card">
+                  <input type="radio" name="workshop" value="Web Development Workshop" id="ws_web" checked>
+                  <div class="option-content">
+                    <div class="option-title">Web Development Workshop</div>
+                    <div class="option-desc">Hands-on lab session covering modern web architecture, JavaScript, and PHP backend integration.</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION D: MEALS -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">D</span>
+              <h2 class="section-title">Catering & Meals</h2>
+            </div>
+
+            <div class="form-group">
+              <label>Daily Lunch Option <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="option-card">
+                  <input type="radio" name="meals" value="No Lunch" id="meal_none">
+                  <div class="option-content">
+                    <div class="option-title">No Lunch</div>
+                    <div class="option-desc">Self-arranged meals.</div>
+                  </div>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="meals" value="Lunch Required" id="meal_yes" checked>
+                  <div class="option-content">
+                    <div class="option-title">Lunch Required</div>
+                    <div class="option-desc">Buffet lunch and tea breaks provided for all registered days.</div>
+                  </div>
+                  <div class="option-price">KSh 300 / day</div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION E: ACCOMMODATION (DYNAMIC - INDIVIDUAL REQUIREMENT CT100/G/24121/24) -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">E</span>
+              <h2 class="section-title">Accommodation Option</h2>
+            </div>
+
+            <div class="form-group">
+              <label>On-Campus Hostels <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="option-card">
+                  <input type="radio" name="accommodation" value="No Accommodation" id="acc_no">
+                  <div class="option-content">
+                    <div class="option-title">No Accommodation</div>
+                    <div class="option-desc">Non-resident student.</div>
+                  </div>
+                </label>
+
+                <label class="option-card">
+                  <input type="radio" name="accommodation" value="Require Accommodation" id="acc_yes" checked>
+                  <div class="option-content">
+                    <div class="option-title">Require Accommodation</div>
+                    <div class="option-desc">Student hostel room with security, Wi-Fi, and amenities.</div>
+                  </div>
+                  <div class="option-price">KSh 1,500 / night</div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Dynamic Accommodation Nights Group -->
+            <div id="accommodationNightsGroup" class="conditional-box">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="accommodation_nights">Number of Accommodation Nights <span class="required">*</span></label>
+                <input type="number" id="accommodation_nights" name="accommodation_nights" min="1" max="7" value="2">
+                <div class="input-hint">Rate: KSh 1,500 per night. Must be at least 1 night.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION G: SUBMISSION BUTTONS -->
+          <div class="form-section" style="border: none; margin-bottom: 0;">
+            <div style="display: flex; gap: 15px;">
+              <button type="submit" id="submitBtn" class="btn btn-primary btn-block" style="font-size: 1.1rem; padding: 14px;">
+                Complete & Submit Registration &rarr;
+              </button>
+              <button type="reset" id="resetBtn" class="btn btn-secondary" style="padding: 14px 20px;">
+                Reset
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- SIDEBAR: DYNAMIC FEE SUMMARY CALCULATOR -->
+      <aside class="calculator-sticky">
+        <div class="summary-card">
+          <div class="summary-title">
+            <span>Fee Breakdown</span>
+            <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-light);">Auto-Calculated</span>
+          </div>
+
+          <div class="summary-list">
+            <div class="summary-item">
+              <span class="item-label">Base Registration</span>
+              <span class="item-value">KSh 1,000</span>
+            </div>
+            
+            <div class="summary-item">
+              <span class="item-label">Attendance (<span id="dispDays">2</span> days)</span>
+              <span class="item-value">KSh <span id="summaryAttendance">1,000</span></span>
+            </div>
+
+            <div class="summary-item">
+              <span class="item-label">Workshop Fee</span>
+              <span class="item-value">KSh <span id="summaryWorkshop">750</span></span>
+            </div>
+
+            <div class="summary-item">
+              <span class="item-label">Meal Fee (<span id="dispMealDays">2</span> days)</span>
+              <span class="item-value">KSh <span id="summaryMeals">600</span></span>
+            </div>
+
+            <div class="summary-item">
+              <span class="item-label">Accommodation (<span id="dispNights">2</span> nights)</span>
+              <span class="item-value">KSh <span id="summaryAccommodation">3,000</span></span>
+            </div>
+          </div>
+
+          <div class="summary-total">
+            <div class="total-label">TOTAL AMOUNT PAYABLE</div>
+            <div class="total-amount">KSh <span id="summaryTotal">6,350</span></div>
+          </div>
+
+          <div style="font-size: 0.82rem; color: var(--text-light); text-align: center;">
+            🔒 All selections verified by server-side PHP during submission.
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h4>Student Technology & Innovation Conference 2026</h4>
+          <p>Web Application Development II — Continuous Assessment Test (CAT 1)</p>
+        </div>
+        <div>
+          <p><strong>Registration Number:</strong> CT100/G/24121/24</p>
+          <p><strong>Individual Requirement:</strong> Accommodation at KSh 1,500 / night</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 STICON. All Rights Reserved. Vanilla JS & PHP Fee Engine.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Include JavaScript File -->
+  <script src="js/script.js"></script>
+</body>
+</html>
